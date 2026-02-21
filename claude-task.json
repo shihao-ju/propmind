@@ -315,7 +315,7 @@
         "Handle errors gracefully, return image URL or null",
         "Add TypeScript types for API response"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "img-002",
