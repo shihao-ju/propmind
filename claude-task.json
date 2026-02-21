@@ -140,7 +140,7 @@
         "No code changes needed inside moved files — imports use @ aliases",
         "Verify no broken imports after move"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "layout-002",
