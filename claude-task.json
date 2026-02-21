@@ -167,7 +167,7 @@
         "Observe once then disconnect (no re-triggering)",
         "Apply transition via inline styles for delay/duration control"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "nav-001",
