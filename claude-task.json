@@ -271,7 +271,7 @@
         "Wrap useSearchParams in Suspense boundary",
         "POST to /api/auth/login, handle response"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "auth-005",
