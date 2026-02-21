@@ -328,7 +328,7 @@
         "Return { success: true, imageUrl } or { success: false, error }",
         "Validate that MINIMAX_API_KEY is set, return 500 if not"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "og-001",
