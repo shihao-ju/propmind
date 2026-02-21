@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -29,6 +29,8 @@ const URGENCY_TEXT: Record<string, string> = {
 export default function TicketDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const isDemo = searchParams.get('demo') === 'true'
   const [ticket, setTicket] = useState<Ticket | null>(null)
   const [loading, setLoading] = useState(true)
   const [modalOpen, setModalOpen] = useState(false)
@@ -51,7 +53,12 @@ export default function TicketDetailPage() {
 
   useEffect(() => {
     fetchTicket()
-  }, [fetchTicket])
+    // In demo mode, poll every 1s so state changes from DemoControls reflect instantly
+    if (isDemo) {
+      const interval = setInterval(fetchTicket, 1000)
+      return () => clearInterval(interval)
+    }
+  }, [fetchTicket, isDemo])
 
   function handleVendorSelect(vendor: Vendor, slot: string) {
     setSelectedVendor(vendor)
