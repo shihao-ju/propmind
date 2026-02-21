@@ -198,7 +198,7 @@
         "Include LandingNav at top",
         "Use FadeIn component for scroll animations throughout"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "cleanup-001",
