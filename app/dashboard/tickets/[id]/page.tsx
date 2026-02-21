@@ -108,8 +108,16 @@ export default function TicketDetailPage() {
   if (loading) {
     return (
       <div className="p-6 max-w-3xl mx-auto">
-        <div className="h-8 w-48 bg-muted animate-pulse rounded mb-4" />
-        <div className="h-40 bg-muted animate-pulse rounded" />
+        <div className="h-4 w-24 bg-muted animate-pulse rounded mb-4" />
+        <div className="h-7 w-72 bg-muted animate-pulse rounded mb-2" />
+        <div className="h-4 w-48 bg-muted animate-pulse rounded mb-6" />
+        <div className="h-16 bg-muted animate-pulse rounded mb-4" />
+        <div className="h-24 bg-muted animate-pulse rounded mb-4" />
+        <div className="grid gap-3 md:grid-cols-3">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-48 bg-muted animate-pulse rounded" />
+          ))}
+        </div>
       </div>
     )
   }
@@ -177,6 +185,27 @@ export default function TicketDetailPage() {
       </Card>
 
       {/* Dynamic content by status */}
+      {ticket.status === 'finding_vendors' && (
+        <div className="mb-4">
+          <h2 className="text-sm font-semibold mb-3">
+            Searching for vendors near {property?.city}, {property?.state}...
+          </h2>
+          <div className="grid gap-3 md:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="p-4">
+                <div className="h-4 w-32 bg-muted animate-pulse rounded mb-3" />
+                <div className="h-3 w-24 bg-muted animate-pulse rounded mb-2" />
+                <div className="h-3 w-20 bg-muted animate-pulse rounded mb-4" />
+                <div className="space-y-2">
+                  <div className="h-8 bg-muted animate-pulse rounded" />
+                  <div className="h-8 bg-muted animate-pulse rounded" />
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+
       {ticket.status === 'awaiting_approval' && ticket.vendors.length > 0 && (
         <div className="mb-4">
           <h2 className="text-sm font-semibold mb-3">

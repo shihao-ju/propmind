@@ -130,7 +130,7 @@ export default function TenantChat({
   }
 
   return (
-    <div className="flex flex-col h-screen max-w-2xl mx-auto">
+    <div className="flex flex-col h-full max-w-2xl mx-auto">
       {/* Property header */}
       <div className="border-b px-6 py-4 bg-white">
         <h1 className="text-lg font-semibold">{propertyName}</h1>

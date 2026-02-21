@@ -39,7 +39,7 @@ export default function DashboardPage() {
   const completedTickets = filtered.filter((t) => t.status === 'complete')
 
   return (
-    <div className="flex h-[calc(100vh-64px)]">
+    <div className="flex h-full">
       <PropertySidebar
         properties={PROPERTIES}
         tickets={tickets}
