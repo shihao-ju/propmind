@@ -128,7 +128,7 @@
         "Wrap children in flex layout: div.flex.flex-col.h-screen > Navbar + div.flex-1.overflow-auto > {children}",
         "Add bg-background class to outer wrapper"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "move-001",
