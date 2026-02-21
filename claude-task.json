@@ -115,7 +115,7 @@
         "Root layout should only contain: <html>, <body> with font classes, {children}",
         "Keep existing metadata export"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "layout-001",

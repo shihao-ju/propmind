@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { Nunito } from "next/font/google";
+import { Nunito, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import DemoWrapper from "@/components/DemoWrapper";
-import Navbar from "@/components/Navbar";
 
 const nunito = Nunito({
-  variable: "--font-nunito",
+  variable: "--font-body",
   subsets: ["latin"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["700", "900"],
 });
 
 export const metadata: Metadata = {
@@ -21,12 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${nunito.variable} font-sans antialiased bg-gray-50`}>
-        <div className="flex flex-col h-screen">
-          <Navbar />
-          <div className="flex-1 overflow-auto">{children}</div>
-        </div>
-        <DemoWrapper />
+      <body
+        className={`${nunito.variable} ${playfair.variable} font-sans antialiased`}
+      >
+        {children}
       </body>
     </html>
   );
