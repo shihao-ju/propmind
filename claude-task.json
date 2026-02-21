@@ -8,7 +8,7 @@
       "id": "phase-1",
       "name": "Foundation — Route Groups, Design System, Fonts",
       "description": "Restructure app into (marketing) and (app) route groups, replace OKLch design tokens with Design Bible HSL palette, add Playfair Display font",
-      "status": "pending",
+      "status": "complete",
       "verification": {
         "description": "Confirm route groups work, design system is correct, fonts load",
         "steps": [
@@ -152,7 +152,7 @@
         "Add bg-propmind-gradient or min-h-screen styling",
         "No Navbar — marketing pages have their own LandingNav"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "fade-001",
