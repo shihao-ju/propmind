@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import {
   MessageCircle,
@@ -13,6 +14,26 @@ import {
 } from 'lucide-react'
 import LandingNav from '@/components/LandingNav'
 import FadeIn from '@/components/FadeIn'
+
+export const metadata: Metadata = {
+  title: 'PropMind — AI Property Manager',
+  description:
+    'Fire your property manager. Keep the service. AI-powered maintenance coordination for small landlords.',
+  openGraph: {
+    title: 'PropMind — AI Property Manager',
+    description:
+      'Fire your property manager. Keep the service. AI-powered maintenance coordination for small landlords.',
+    type: 'website',
+    images: [{ url: '/images/og-image.jpg', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PropMind — AI Property Manager',
+    description:
+      'Fire your property manager. Keep the service. AI-powered maintenance coordination for small landlords.',
+    images: ['/images/og-image.jpg'],
+  },
+}
 
 const HOW_IT_WORKS = [
   {

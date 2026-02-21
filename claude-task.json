@@ -70,7 +70,7 @@
       "id": "phase-4",
       "name": "AI Image Generation & Polish",
       "description": "Create image generation utilities for MiniMax API, add public/images directory, add OpenGraph metadata, verify full build",
-      "status": "pending",
+      "status": "complete",
       "verification": {
         "description": "Confirm image gen utilities compile, OG tags present, full build succeeds",
         "steps": [
@@ -341,7 +341,7 @@
         "Set twitter:card to 'summary_large_image'",
         "Verify metadata appears in page source"
       ],
-      "passes": false
+      "passes": true
     }
   ]
 }
