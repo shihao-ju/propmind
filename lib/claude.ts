@@ -1,8 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { Property, Tenant } from './types'
 
-export const client = new Anthropic()
-
 export const TOOLS: Anthropic.Tool[] = [
   {
     name: 'classify_issue',

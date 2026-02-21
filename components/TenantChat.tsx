@@ -18,6 +18,7 @@ interface TenantChatProps {
   propertyAddress: string
   tenantName: string
   unit: string
+  defaultProvider?: string
 }
 
 export default function TenantChat({
@@ -27,11 +28,13 @@ export default function TenantChat({
   propertyAddress,
   tenantName,
   unit,
+  defaultProvider,
 }: TenantChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [ticketId, setTicketId] = useState<string | null>(null)
+  const [provider, setProvider] = useState(defaultProvider ?? 'anthropic')
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -62,6 +65,7 @@ export default function TenantChat({
           messages: newMessages,
           propertySlug,
           tenantId,
+          provider,
         }),
       })
 
@@ -133,11 +137,24 @@ export default function TenantChat({
     <div className="flex flex-col h-full max-w-2xl mx-auto">
       {/* Property header */}
       <div className="border-b px-6 py-4 bg-white">
-        <h1 className="text-lg font-semibold">{propertyName}</h1>
-        <p className="text-sm text-muted-foreground">{propertyAddress}</p>
-        <p className="text-xs text-muted-foreground mt-1">
-          {tenantName} &middot; Unit {unit}
-        </p>
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-lg font-semibold">{propertyName}</h1>
+            <p className="text-sm text-muted-foreground">{propertyAddress}</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {tenantName} &middot; Unit {unit}
+            </p>
+          </div>
+          <select
+            value={provider}
+            onChange={(e) => setProvider(e.target.value)}
+            disabled={isLoading}
+            className="text-xs border rounded px-2 py-1 bg-background text-muted-foreground"
+          >
+            <option value="anthropic">Claude</option>
+            <option value="minimax">MiniMax</option>
+          </select>
+        </div>
       </div>
 
       {/* Messages */}

@@ -23,6 +23,7 @@ export default async function TenantChatPage({
       propertyAddress={`${property.address}, ${property.city}, ${property.state} ${property.zip}`}
       tenantName={tenant.name}
       unit={tenant.unit}
+      defaultProvider={process.env.LLM_PROVIDER || 'anthropic'}
     />
   )
 }

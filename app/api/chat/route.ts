@@ -1,11 +1,13 @@
 import { NextRequest } from 'next/server'
-import { client, TOOLS, buildSystemPrompt } from '@/lib/claude'
+import { TOOLS, buildSystemPrompt } from '@/lib/claude'
+import { getProvider } from '@/lib/providers'
 import { PROPERTIES, TENANTS, tickets } from '@/lib/store'
 import { getMockVendors } from '@/lib/vendors'
 import { IssueType, Urgency } from '@/lib/types'
 
 export async function POST(req: NextRequest) {
-  const { messages, propertySlug, tenantId } = await req.json()
+  const { messages, propertySlug, tenantId, provider: providerName } =
+    await req.json()
 
   const property = PROPERTIES.find((p) => p.slug === propertySlug)
   const tenant = TENANTS.find((t) => t.id === tenantId)
@@ -35,6 +37,7 @@ export async function POST(req: NextRequest) {
 
   ;(async () => {
     try {
+      const { client, model } = getProvider(providerName)
       let conversationMessages = anthropicMessages
       let continueLoop = true
       let ticketCreated = false
@@ -44,7 +47,7 @@ export async function POST(req: NextRequest) {
       while (continueLoop && !ticketCreated && iterations < MAX_ITERATIONS) {
         iterations++
         const response = await client.messages.create({
-          model: 'claude-sonnet-4-6',
+          model,
           max_tokens: 1024,
           system: buildSystemPrompt(property, tenant),
           tools: TOOLS,
@@ -198,7 +201,7 @@ export async function POST(req: NextRequest) {
           ) {
             // One more iteration to get the follow-up question text, then stop
             const followUpResponse = await client.messages.create({
-              model: 'claude-sonnet-4-6',
+              model,
               max_tokens: 1024,
               system: buildSystemPrompt(property, tenant),
               tools: TOOLS,
