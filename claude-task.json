@@ -1,0 +1,347 @@
+{
+  "project": "propmind-landing-auth",
+  "version": "0.1.0",
+  "description": "PropMind landing page, auth system, and AI image generation utilities",
+  "lastUpdated": null,
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "Foundation — Route Groups, Design System, Fonts",
+      "description": "Restructure app into (marketing) and (app) route groups, replace OKLch design tokens with Design Bible HSL palette, add Playfair Display font",
+      "status": "pending",
+      "verification": {
+        "description": "Confirm route groups work, design system is correct, fonts load",
+        "steps": [
+          "Run `npx tsc --noEmit` — no type errors",
+          "Run `npm run build` — build succeeds",
+          "Visit `/dashboard` — page loads with Navbar and DemoWrapper (same as before)",
+          "Visit `/tenant/portland-oak-st` — tenant chat loads with Navbar",
+          "Inspect root layout in browser — Playfair Display and Nunito fonts are loaded",
+          "Inspect CSS — primary color is Moss Green (#2D6A4F), not generic gray"
+        ]
+      },
+      "tasks": ["css-001", "font-001", "layout-001", "move-001", "layout-002"]
+    },
+    {
+      "id": "phase-2",
+      "name": "Landing Page",
+      "description": "Create the marketing landing page with hero, how-it-works, features grid, stats, CTA, and footer sections. Plus FadeIn and LandingNav components.",
+      "status": "pending",
+      "verification": {
+        "description": "Confirm landing page renders correctly at root URL",
+        "steps": [
+          "Run `npm run build` — build succeeds",
+          "Visit `/` — landing page renders (NOT a redirect to /dashboard)",
+          "Hero section visible with Playfair Display heading, two CTA buttons",
+          "How It Works section shows 3 cards with icons",
+          "Features grid shows 6 cards in 2x3 layout on desktop",
+          "Stats bar shows 3 numbers",
+          "Footer visible at bottom",
+          "Scroll down — FadeIn animations trigger on scroll",
+          "LandingNav visible at top with logo and Sign In link"
+        ]
+      },
+      "tasks": ["fade-001", "nav-001", "landing-001", "cleanup-001"]
+    },
+    {
+      "id": "phase-3",
+      "name": "Auth System (Cookie-Based Mock)",
+      "description": "Implement mock cookie-based auth with login/logout API routes, middleware for route protection, login page with demo shortcuts, session hook, and updated Navbar",
+      "status": "pending",
+      "verification": {
+        "description": "Confirm full auth flow works end-to-end",
+        "steps": [
+          "Run `npx tsc --noEmit` — no type errors",
+          "Run `npm run build` — build succeeds",
+          "Visit `/dashboard` while logged out — redirects to `/login`",
+          "Visit `/login` — login form visible with demo shortcut buttons",
+          "Click 'Sign in as Landlord' — redirects to `/dashboard`",
+          "Navbar shows 'Alex Johnson' with 'Landlord' badge and Sign Out button",
+          "Visit `/tenant/portland-oak-st` as landlord — redirected to `/dashboard`",
+          "Sign out — redirected to `/`",
+          "Click 'Sign in as Maria' — redirects to `/tenant/portland-oak-st`",
+          "Visit `/dashboard` as Maria — redirected to `/tenant/portland-oak-st`",
+          "Visit `/` — landing page accessible without login"
+        ]
+      },
+      "tasks": ["auth-001", "auth-002", "auth-003", "auth-004", "auth-005", "auth-006"]
+    },
+    {
+      "id": "phase-4",
+      "name": "AI Image Generation & Polish",
+      "description": "Create image generation utilities for MiniMax API, add public/images directory, add OpenGraph metadata, verify full build",
+      "status": "pending",
+      "verification": {
+        "description": "Confirm image gen utilities compile, OG tags present, full build succeeds",
+        "steps": [
+          "Run `npx tsc --noEmit` — no type errors",
+          "Run `npm run build` — build succeeds",
+          "`public/images/` directory exists",
+          "`lib/image-gen.ts` exports `generateImage` function",
+          "`app/api/generate-image/route.ts` responds to POST requests",
+          "View page source of `/` — OpenGraph meta tags present (og:title, og:description, og:image)",
+          "Full flow test: Landing → Login → Dashboard → Sign Out → Landing works"
+        ]
+      },
+      "tasks": ["img-001", "img-002", "og-001"]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "css-001",
+      "phase": "phase-1",
+      "description": "Update app/globals.css — Replace OKLch design tokens with Design Bible HSL palette",
+      "steps": [
+        "Replace :root variables with HSL values: --primary: hsl(153 40% 30%), --secondary: hsl(43 75% 31%), --accent: hsl(13 84% 69%), --background: hsl(212 100% 97%)",
+        "Add status colors: --success (green), --warning (amber), --info (blue)",
+        "Fix --radius to 1rem",
+        "Update @theme inline block — add --font-display and --font-body, update color references",
+        "Add .bg-propmind-gradient utility class (sky-blue to warm-earth gradient)",
+        "Add @keyframes fade-up and .animate-fade-up CSS",
+        "Keep dark mode variables but update them to match the new HSL palette",
+        "Keep all existing shadcn/ui theme structure intact (card, popover, muted, etc.)"
+      ],
+      "passes": true
+    },
+    {
+      "id": "font-001",
+      "phase": "phase-1",
+      "description": "Add Playfair Display font to root layout, strip Navbar/DemoWrapper to root-only shell",
+      "steps": [
+        "Import Playfair_Display from next/font/google with weights [700, 900] and variable --font-display",
+        "Keep Nunito with variable --font-body (rename from --font-nunito)",
+        "Apply both font variables to <body> className",
+        "Remove Navbar and DemoWrapper imports and rendering from root layout (they move to (app) layout)",
+        "Root layout should only contain: <html>, <body> with font classes, {children}",
+        "Keep existing metadata export"
+      ],
+      "passes": false
+    },
+    {
+      "id": "layout-001",
+      "phase": "phase-1",
+      "description": "Create (app) route group layout with Navbar and DemoWrapper",
+      "steps": [
+        "Create app/(app)/layout.tsx",
+        "Import and render Navbar at top",
+        "Import and render DemoWrapper",
+        "Wrap children in flex layout: div.flex.flex-col.h-screen > Navbar + div.flex-1.overflow-auto > {children}",
+        "Add bg-background class to outer wrapper"
+      ],
+      "passes": false
+    },
+    {
+      "id": "move-001",
+      "phase": "phase-1",
+      "description": "Move dashboard/ and tenant/ directories into (app) route group",
+      "steps": [
+        "Move app/dashboard/ to app/(app)/dashboard/ (the directories may already exist — move contents)",
+        "Move app/tenant/ to app/(app)/tenant/",
+        "No code changes needed inside moved files — imports use @ aliases",
+        "Verify no broken imports after move"
+      ],
+      "passes": false
+    },
+    {
+      "id": "layout-002",
+      "phase": "phase-1",
+      "description": "Create (marketing) route group layout",
+      "steps": [
+        "Create app/(marketing)/layout.tsx",
+        "Minimal layout: just renders {children}",
+        "Add bg-propmind-gradient or min-h-screen styling",
+        "No Navbar — marketing pages have their own LandingNav"
+      ],
+      "passes": false
+    },
+    {
+      "id": "fade-001",
+      "phase": "phase-2",
+      "description": "Create FadeIn client component for scroll-triggered animations",
+      "steps": [
+        "Create components/FadeIn.tsx as 'use client' component",
+        "Props: children, delay (ms), direction ('up'|'down'|'left'|'right'), duration (ms), threshold (0-1), className",
+        "Use useRef + useEffect with IntersectionObserver",
+        "Initial state: opacity-0, translated in specified direction",
+        "On intersection: transition to opacity-1, translate-0",
+        "Observe once then disconnect (no re-triggering)",
+        "Apply transition via inline styles for delay/duration control"
+      ],
+      "passes": false
+    },
+    {
+      "id": "nav-001",
+      "phase": "phase-2",
+      "description": "Create LandingNav transparent navigation component",
+      "steps": [
+        "Create components/LandingNav.tsx",
+        "Absolute positioned, z-50, full width",
+        "Left: Building2 icon + 'PropMind' logo text (white or dark depending on hero bg)",
+        "Right: 'Sign In' link to /login",
+        "Transparent background, white text for hero overlay",
+        "Container with max-width and horizontal padding"
+      ],
+      "passes": false
+    },
+    {
+      "id": "landing-001",
+      "phase": "phase-2",
+      "description": "Create the full landing page with all 6 sections",
+      "steps": [
+        "Create app/(marketing)/page.tsx",
+        "Section A — Hero: Playfair 900 heading 'Fire your property manager. Keep the service.', Nunito subtitle, two pill CTAs (Get Started → /login, Report Issue → /login), video bg with poster fallback, gradient overlay",
+        "Section B — How It Works: 3 step cards (MessageCircle, Bot, CheckCircle icons), connecting line on desktop, staggered FadeIn (80ms delay between cards)",
+        "Section C — Features Grid: 2x3 responsive grid with 6 feature cards (AI Triage, Vendor Search, One-Click Approval, Real-time Updates, Multi-Property Dashboard, 24/7 Availability), each with Lucide icon in colored circle + title + description, hover lift translateY(-2px) + shadow",
+        "Section D — Stats Bar: 3 big numbers in Playfair Display ('90% faster', '24/7', '$0 fees'), muted background band",
+        "Section E — Final CTA: 'Ready to fire your property manager?' + 'Get Started Free' button",
+        "Section F — Footer: Logo, nav links (Features, How It Works, Sign In), copyright",
+        "Include LandingNav at top",
+        "Use FadeIn component for scroll animations throughout"
+      ],
+      "passes": false
+    },
+    {
+      "id": "cleanup-001",
+      "phase": "phase-2",
+      "description": "Delete old app/page.tsx redirect",
+      "steps": [
+        "Delete app/page.tsx (the redirect to /dashboard)",
+        "The new landing page at app/(marketing)/page.tsx now serves the / route"
+      ],
+      "passes": false
+    },
+    {
+      "id": "auth-001",
+      "phase": "phase-3",
+      "description": "Create auth library with mock users and session encoding",
+      "steps": [
+        "Create lib/auth.ts",
+        "Define MockUser type: { id, email, name, role: 'landlord'|'tenant', tenantSlug?: string }",
+        "Define MOCK_USERS array with 3 users: landlord@demo.com (Alex Johnson, landlord), maria@demo.com (Maria Lopez, tenant, portland-oak-st), james@demo.com (James Kim, tenant, chicago-pine-rd)",
+        "All passwords: 'demo123'",
+        "Session type: { userId, email, name, role, tenantSlug? }",
+        "validateCredentials(email, password) → MockUser | null",
+        "encodeSession(user: MockUser) → string (base64 JSON)",
+        "decodeSession(cookie: string) → Session | null (with try/catch)",
+        "Edge-safe: use btoa/atob (works in Edge runtime and browser)"
+      ],
+      "passes": false
+    },
+    {
+      "id": "auth-002",
+      "phase": "phase-3",
+      "description": "Create auth API routes (login, logout, me)",
+      "steps": [
+        "Create app/api/auth/login/route.ts — POST: validate credentials, set httpOnly cookie 'propmind-session' with encoded session, return { success: true, user }. On failure return 401.",
+        "Create app/api/auth/logout/route.ts — POST: clear 'propmind-session' cookie (set maxAge=0), return { success: true }",
+        "Create app/api/auth/me/route.ts — GET: read cookie, decode session, return user or 401"
+      ],
+      "passes": false
+    },
+    {
+      "id": "auth-003",
+      "phase": "phase-3",
+      "description": "Create middleware for route protection and role-based redirects",
+      "steps": [
+        "Create middleware.ts at project root (propmind/middleware.ts)",
+        "Export config.matcher to exclude _next/static, _next/image, favicon.ico, images/*, api/*",
+        "Public routes that skip auth: exact '/' and '/login'",
+        "Read 'propmind-session' cookie from request",
+        "If no valid session and route is not public → redirect to /login?redirect=<original-path>",
+        "If session.role === 'tenant' and path starts with /dashboard → redirect to /tenant/<tenantSlug>",
+        "If session.role === 'landlord' and path starts with /tenant → redirect to /dashboard",
+        "Use NextResponse.redirect() for all redirects",
+        "Use decodeSession directly (edge-safe, no Node.js APIs)"
+      ],
+      "passes": false
+    },
+    {
+      "id": "auth-004",
+      "phase": "phase-3",
+      "description": "Create login page with form and demo shortcut buttons",
+      "steps": [
+        "Create app/(marketing)/login/page.tsx as 'use client' component",
+        "Centered card on gradient background",
+        "Playfair Display heading: 'Welcome back'",
+        "Email input + password input + 'Sign In' button",
+        "Error message display area",
+        "Divider: 'or try a demo account'",
+        "3 demo shortcut buttons: 'Sign in as Landlord (Alex)', 'Sign in as Maria (Tenant)', 'Sign in as James (Tenant)'",
+        "On successful login: redirect based on role (landlord → /dashboard, tenant → /tenant/<slug>) OR use ?redirect= param",
+        "Wrap useSearchParams in Suspense boundary",
+        "POST to /api/auth/login, handle response"
+      ],
+      "passes": false
+    },
+    {
+      "id": "auth-005",
+      "phase": "phase-3",
+      "description": "Create useSession client hook",
+      "steps": [
+        "Create lib/useSession.ts as 'use client' compatible module",
+        "useState for user (Session | null) and loading (boolean)",
+        "useEffect: fetch /api/auth/me on mount, set user or null",
+        "logout function: POST /api/auth/logout, set user null, redirect to /",
+        "refresh function: re-fetch /api/auth/me",
+        "Return { user, loading, logout, refresh }"
+      ],
+      "passes": false
+    },
+    {
+      "id": "auth-006",
+      "phase": "phase-3",
+      "description": "Update Navbar to show session info and sign out button",
+      "steps": [
+        "Convert components/Navbar.tsx to 'use client' component",
+        "Import and use useSession hook",
+        "Logo link: change href from /dashboard to /",
+        "Show loading skeleton while session loads",
+        "When logged in: show user name, role badge (Landlord=green, Tenant=blue), Sign Out button",
+        "Sign Out calls logout() from useSession",
+        "Keep existing Dashboard nav link",
+        "Add conditional Tenant Chat link if user is landlord"
+      ],
+      "passes": false
+    },
+    {
+      "id": "img-001",
+      "phase": "phase-4",
+      "description": "Create public/images directory and image generation library",
+      "steps": [
+        "Create public/images/ directory with a .gitkeep file",
+        "Create lib/image-gen.ts with MiniMax image generation wrapper",
+        "Export generateImage(prompt, options?) function that calls MiniMax API",
+        "Use MINIMAX_API_KEY from process.env",
+        "Handle errors gracefully, return image URL or null",
+        "Add TypeScript types for API response"
+      ],
+      "passes": false
+    },
+    {
+      "id": "img-002",
+      "phase": "phase-4",
+      "description": "Create generate-image API route",
+      "steps": [
+        "Create app/api/generate-image/route.ts",
+        "POST handler: accept { prompt, width?, height? } in body",
+        "Call generateImage from lib/image-gen.ts",
+        "Return { success: true, imageUrl } or { success: false, error }",
+        "Validate that MINIMAX_API_KEY is set, return 500 if not"
+      ],
+      "passes": false
+    },
+    {
+      "id": "og-001",
+      "phase": "phase-4",
+      "description": "Add OpenGraph metadata to landing page",
+      "steps": [
+        "Add metadata export to app/(marketing)/page.tsx (or use generateMetadata)",
+        "Set og:title, og:description, og:image (pointing to /images/og-image.jpg)",
+        "Set og:type to 'website'",
+        "Set twitter:card to 'summary_large_image'",
+        "Verify metadata appears in page source"
+      ],
+      "passes": false
+    }
+  ]
+}
