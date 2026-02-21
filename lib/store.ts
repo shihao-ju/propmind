@@ -36,23 +36,31 @@ export const TENANTS: Tenant[] = [
   { id: 'tenant-2', name: 'James Kim', unit: '3C', propertyId: 'prop-3' },
 ]
 
-// Live ticket store (in-memory, resets on server restart)
-export const tickets: Map<string, Ticket> = new Map()
+// Persist ticket store across HMR in dev mode using globalThis
+const globalForTickets = globalThis as unknown as {
+  __tickets?: Map<string, Ticket>
+}
 
-// Seed one pre-existing completed ticket so dashboard isn't empty
-tickets.set('ticket-seed-1', {
-  id: 'ticket-seed-1',
-  propertyId: 'prop-2',
-  tenantId: 'tenant-seed',
-  tenantName: 'Derek Walsh',
-  unit: '1B',
-  issueType: 'hvac',
-  urgency: 'low',
-  summary: 'AC filter replacement requested',
-  rawMessage: 'Can someone replace the AC filter? It looks really dirty.',
-  status: 'complete',
-  messages: [],
-  vendors: [],
-  createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-  updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-})
+if (!globalForTickets.__tickets) {
+  globalForTickets.__tickets = new Map()
+
+  // Seed one pre-existing completed ticket so dashboard isn't empty
+  globalForTickets.__tickets.set('ticket-seed-1', {
+    id: 'ticket-seed-1',
+    propertyId: 'prop-2',
+    tenantId: 'tenant-seed',
+    tenantName: 'Derek Walsh',
+    unit: '1B',
+    issueType: 'hvac',
+    urgency: 'low',
+    summary: 'AC filter replacement requested',
+    rawMessage: 'Can someone replace the AC filter? It looks really dirty.',
+    status: 'complete',
+    messages: [],
+    vendors: [],
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+    updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+  })
+}
+
+export const tickets = globalForTickets.__tickets
