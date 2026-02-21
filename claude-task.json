@@ -225,7 +225,7 @@
         "decodeSession(cookie: string) → Session | null (with try/catch)",
         "Edge-safe: use btoa/atob (works in Edge runtime and browser)"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "auth-002",
