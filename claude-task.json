@@ -181,7 +181,7 @@
         "Transparent background, white text for hero overlay",
         "Container with max-width and horizontal padding"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "landing-001",
