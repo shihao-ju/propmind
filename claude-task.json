@@ -253,7 +253,7 @@
         "Use NextResponse.redirect() for all redirects",
         "Use decodeSession directly (edge-safe, no Node.js APIs)"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "auth-004",
