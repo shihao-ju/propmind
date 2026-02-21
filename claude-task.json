@@ -26,7 +26,7 @@
       "id": "phase-2",
       "name": "Landing Page",
       "description": "Create the marketing landing page with hero, how-it-works, features grid, stats, CTA, and footer sections. Plus FadeIn and LandingNav components.",
-      "status": "pending",
+      "status": "complete",
       "verification": {
         "description": "Confirm landing page renders correctly at root URL",
         "steps": [
@@ -208,7 +208,7 @@
         "Delete app/page.tsx (the redirect to /dashboard)",
         "The new landing page at app/(marketing)/page.tsx now serves the / route"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "auth-001",
