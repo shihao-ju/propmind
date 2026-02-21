@@ -15,28 +15,26 @@ export default function VendorCard({ vendor, onSelect }: VendorCardProps) {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
 
   return (
-    <Card className="p-4">
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <h3 className="font-semibold text-sm">{vendor.name}</h3>
-          <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-              {vendor.rating} ({vendor.reviewCount})
-            </span>
-            <span className="flex items-center gap-1">
-              <MapPin className="h-3 w-3" />
-              {vendor.distanceMiles} mi
-            </span>
-            <span className="flex items-center gap-1">
-              <DollarSign className="h-3 w-3" />
-              ${vendor.estimatedCostLow}–${vendor.estimatedCostHigh}
-            </span>
-          </div>
+    <Card className="p-4 flex flex-col">
+      <div className="mb-3">
+        <h3 className="font-semibold text-sm">{vendor.name}</h3>
+        <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+            {vendor.rating} ({vendor.reviewCount})
+          </span>
+          <span className="flex items-center gap-1">
+            <MapPin className="h-3 w-3" />
+            {vendor.distanceMiles} mi
+          </span>
+          <span className="flex items-center gap-1">
+            <DollarSign className="h-3 w-3" />
+            ${vendor.estimatedCostLow}–${vendor.estimatedCostHigh}
+          </span>
         </div>
       </div>
 
-      <div className="space-y-1.5 mb-3">
+      <div className="space-y-1.5 flex-1">
         <p className="text-xs font-medium text-muted-foreground">
           Available slots:
         </p>
@@ -63,7 +61,7 @@ export default function VendorCard({ vendor, onSelect }: VendorCardProps) {
 
       <Button
         size="sm"
-        className="w-full"
+        className="w-full mt-3"
         disabled={!selectedSlot}
         onClick={() => selectedSlot && onSelect(vendor, selectedSlot)}
       >
