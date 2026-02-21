@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -28,7 +28,6 @@ const URGENCY_TEXT: Record<string, string> = {
 
 export default function TicketDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const router = useRouter()
   const searchParams = useSearchParams()
   const isDemo = searchParams.get('demo') === 'true'
   const [ticket, setTicket] = useState<Ticket | null>(null)
