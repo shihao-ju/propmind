@@ -38,8 +38,11 @@ export async function POST(req: NextRequest) {
       let conversationMessages = anthropicMessages
       let continueLoop = true
       let ticketCreated = false
+      let iterations = 0
+      const MAX_ITERATIONS = 6 // Safety cap — triage is 2-4 turns max
 
-      while (continueLoop && !ticketCreated) {
+      while (continueLoop && !ticketCreated && iterations < MAX_ITERATIONS) {
+        iterations++
         const response = await client.messages.create({
           model: 'claude-sonnet-4-6',
           max_tokens: 1024,
@@ -122,6 +125,15 @@ export async function POST(req: NextRequest) {
             const ticketId = `ticket-${Date.now()}`
             const vendors = getMockVendors(input.issue_type, property.zip)
 
+            // Capture conversation history for the ticket
+            const ticketMessages = messages.map(
+              (m: { role: string; content: string }) => ({
+                role: m.role as 'tenant' | 'ai',
+                content: m.content,
+                timestamp: new Date(),
+              })
+            )
+
             const newTicket = {
               id: ticketId,
               propertyId: input.property_id || property.id,
@@ -133,7 +145,7 @@ export async function POST(req: NextRequest) {
               summary: input.summary,
               rawMessage: input.raw_message,
               status: 'awaiting_approval' as const,
-              messages: [],
+              messages: ticketMessages,
               vendors,
               createdAt: new Date(),
               updatedAt: new Date(),
