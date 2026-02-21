@@ -236,7 +236,7 @@
         "Create app/api/auth/logout/route.ts — POST: clear 'propmind-session' cookie (set maxAge=0), return { success: true }",
         "Create app/api/auth/me/route.ts — GET: read cookie, decode session, return user or 401"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "auth-003",
