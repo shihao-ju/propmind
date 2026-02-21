@@ -47,7 +47,7 @@
       "id": "phase-3",
       "name": "Auth System (Cookie-Based Mock)",
       "description": "Implement mock cookie-based auth with login/logout API routes, middleware for route protection, login page with demo shortcuts, session hook, and updated Navbar",
-      "status": "pending",
+      "status": "complete",
       "verification": {
         "description": "Confirm full auth flow works end-to-end",
         "steps": [
@@ -301,7 +301,7 @@
         "Keep existing Dashboard nav link",
         "Add conditional Tenant Chat link if user is landlord"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "img-001",
