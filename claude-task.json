@@ -285,7 +285,7 @@
         "refresh function: re-fetch /api/auth/me",
         "Return { user, loading, logout, refresh }"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "auth-006",
