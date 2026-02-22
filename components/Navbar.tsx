@@ -17,18 +17,28 @@ export default function Navbar() {
       </Link>
 
       <nav className="ml-8 flex items-center gap-4">
-        <Link
-          href="/dashboard"
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          Dashboard
-        </Link>
         {user?.role === 'landlord' && (
+          <>
+            <Link
+              href="/dashboard"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/tenant/portland-oak-st"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Tenant Chat
+            </Link>
+          </>
+        )}
+        {user?.role === 'tenant' && user.tenantSlug && (
           <Link
-            href="/tenant/portland-oak-st"
+            href={`/tenant/${user.tenantSlug}`}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            Tenant Chat
+            My Chat
           </Link>
         )}
       </nav>

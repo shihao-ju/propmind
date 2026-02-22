@@ -52,11 +52,11 @@ function LoginForm() {
         return
       }
 
-      // Redirect based on role or redirect param
-      if (redirectTo) {
-        router.push(redirectTo)
-      } else if (data.user.role === 'tenant' && data.user.tenantSlug) {
+      // Always redirect based on role — ignore redirectTo if it doesn't match
+      if (data.user.role === 'tenant' && data.user.tenantSlug) {
         router.push(`/tenant/${data.user.tenantSlug}`)
+      } else if (redirectTo && !redirectTo.startsWith('/tenant')) {
+        router.push(redirectTo)
       } else {
         router.push('/dashboard')
       }
