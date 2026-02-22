@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { Building2 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -24,7 +24,6 @@ const DEMO_ACCOUNTS = [
 ]
 
 function LoginForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirect')
 
@@ -52,13 +51,11 @@ function LoginForm() {
         return
       }
 
-      // Always redirect based on role — ignore redirectTo if it doesn't match
+      // Hard navigate to clear Router Cache from any previous session
       if (data.user.role === 'tenant' && data.user.tenantSlug) {
-        router.push(`/tenant/${data.user.tenantSlug}`)
-      } else if (redirectTo && !redirectTo.startsWith('/tenant')) {
-        router.push(redirectTo)
+        window.location.href = `/tenant/${data.user.tenantSlug}`
       } else {
-        router.push('/dashboard')
+        window.location.href = redirectTo || '/dashboard'
       }
     } catch {
       setError('Something went wrong. Please try again.')

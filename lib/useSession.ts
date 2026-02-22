@@ -1,11 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
 import type { Session } from '@/lib/auth'
 
 export function useSession() {
-  const router = useRouter()
   const [user, setUser] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -32,8 +30,9 @@ export function useSession() {
   const logout = useCallback(async () => {
     await fetch('/api/auth/logout', { method: 'POST' })
     setUser(null)
-    router.push('/')
-  }, [router])
+    // Hard navigate to clear Router Cache from the previous session
+    window.location.href = '/'
+  }, [])
 
   return { user, loading, logout, refresh }
 }
